@@ -21,46 +21,51 @@ function start() {
 
 function buttonLogic(event) {
 
-    let BtnValue = event.target.innerHTML;
+    let button = event.target.innerHTML;
 
-    if ( isADigit(BtnValue) ) {
-        numberWasEntered(BtnValue);
+    if (button == "&nbsp;") {
+        // this is an empty button; ignore it
+        return;
     }
-    else if ( isDecimal(BtnValue) ) {
-        decimalWasEntered(BtnValue);
+
+    if ( isDigit(button) ) {
+        numberWasEntered(button);
     }
-    else if ( isClear(BtnValue) ) {
-        clear();
+    else if ( isDecimal(button) ) {
+        decimalWasEntered(button);
+    }
+    else if ( isClear(button) ) {
+        clearWasEntered();
     }
     else {
-        nonNumberWasEntered(BtnValue);
+        operatorOrEqualWasEntered(button);
     }
 
-    lastButton = BtnValue;
+    lastButton = button;
 
 }
 
-function numberWasEntered(thisButton) {
-    if ( isAnOperator(lastButton) ) {
-        display.value = thisButton;
+function numberWasEntered(button) {
+    if ( isOperator(lastButton) ) {
+        display.value = button;
     }
     else  {
         if (display.value == '0') {
-            display.value = thisButton;
+            display.value = button;
         }
         else {
-            display.value += thisButton;
+            display.value += button;
         }
     }
 }
 
-function decimalWasEntered(n) {
+function decimalWasEntered(button) {
 
     if (displayAlreadyHasDecimal()) {
         // ignore it
     }
     else {
-        display.value += n;
+        display.value += button;
     }
 
 }
@@ -70,54 +75,93 @@ function displayAlreadyHasDecimal() {
 }
 
 
-function nonNumberWasEntered(nn) {
-
-    // is value1 set?
-
-        // no...
-
-            // set value1 = display.value
-            // set operator = this key (nn)
-
-        // yes...
-
-            // is lastButton a operator?
-
-                // yes...
-
-                    // set operator = this key (nn)
-
-                // no ...
-
-                    // is value2 set?
-
-                        // no...
-
-                            // operator = this key (nn)
-                            // value2 = display.value
-
-                        // yes...
-
-                            // value1 = value1 operator value2
-                            // value2 = null
-                            // operator = this key (nn)
+function operatorOrEqualWasEntered(button) {
 
 
+    // TODO: what about pressing an operator immediately after =?
+    // Example: the user types 1 + 2 + + + ?
+
+    // TODO: what should happen when = is pressed multiple times?
+    // Example: the user types 1 + 2 + 3 = = = =
 
 
+    // if two operators are pressed successively,
+    // all we need (?) to do is overwrite the saved
+    // operator with the new one
+    if ( isOperator(lastButton) ) {
+        operator = button;
+        return;
+    }
 
+    // do we have enough saved information to make a calculation?
 
+    // if we have value1 and operator
+    if (value1 && operator) {
 
+        // we don't actually need to do this
+        // we could have calculate() work directly
+        // from display.value
+        // but it's the author's preference to
+        // use all stored values in calculate() :-)
+        value2 = display.value;
 
+        if (button == '=') {
+            display.value = value1 = calculate();
+            operator = null;
+            value2 = null;
+        }
+        else {
+            display.value = value1 = calculate();
+            operator = button;
+            value2 = null;
+        }
+
+    }
+    else {
+        value1 = display.value;
+        operator = button;
+    }
 
 }
 
-function clear() {
+function calculate() {
+
+    let total = 0;
+
+    switch (operator) {
+
+        case "/":
+            total = Number(value1) / Number(value2);
+            break;
+        case "X":
+            total = Number(value1) * Number(value2);
+            break;
+        case "-":
+            total = Number(value1) - Number(value2);
+            break;
+        case "+":
+            total = Number(value1) + Number(value2);
+            break;
+        default:
+            alert("No function selected!");
+            break;
+
+    }
+
+    return total;
+
+}
+
+function clearWasEntered() {
     display.value = '0';
+    value1 = operator = value2 = lastButton = null;
 }
 
 
-function isADigit(candidate) {
+
+
+
+function isDigit(candidate) {
     return (0 <= candidate && candidate <= 9);
 }
 
@@ -125,8 +169,12 @@ function isDecimal(candidate) {
     return (candidate == '.');
 }
 
-function isAnOperator(candidate) {
+function isOperator(candidate) {
     return (candidate == '+' || candidate == '-' || candidate == 'X' || candidate == '/');
+}
+
+function isOperatorOrEqual(candidate) {
+    return (isOperator(candidate) || candidate == '=');
 }
 
 function isClear(candidate) {
