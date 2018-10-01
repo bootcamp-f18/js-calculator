@@ -65,6 +65,9 @@ function decimalWasEntered(button) {
         // ignore it
     }
     else {
+
+        // TODO: is this right? What if the user just pressed =?
+
         display.value += button;
     }
 
@@ -106,6 +109,10 @@ function operatorOrEqualWasEntered(button) {
         value2 = display.value;
 
         if (button == '=') {
+
+            // TODO: is this really the correct behavior?
+            // Should value1 ever be set when operator is not?
+
             display.value = value1 = calculate();
             operator = null;
             value2 = null;
