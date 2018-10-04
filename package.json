@@ -4,11 +4,11 @@
     "repository": " ",
     "license": "MIT",
     "scripts": {
-        "sass": "./node_modules/.bin/sass --watch src/sass/main.scss dist/css/main.css",
-        "browser-sync": "./node_modules/.bin/browser-sync start --server 'dist' --files 'dist'",
-        "babel": "./node_modules/.bin/babel src/js --out-dir dist/js --watch",
-        "copy": "./node_modules/.bin/cpx \"src/**/*.html\" dist --watch",
-        "dev": "./node_modules/.bin/concurrently \"npm run browser-sync\" \"npm run sass\" \"npm run babel\" \"npm run copy\""
+        "sass": "sass --watch src/sass/main.scss dist/css/main.css",
+        "browser-sync": "browser-sync start --server 'dist' --files 'dist'",
+        "babel": "babel src/js --out-dir dist/js --watch",
+        "copy": "cpx \"src/**/*.html\" dist --watch",
+        "dev": "concurrently \"npm run browser-sync\" \"npm run sass\" \"npm run babel\" \"npm run copy\""
     },
     "devDependencies": {
         "@babel/cli": "^7.1.0",
