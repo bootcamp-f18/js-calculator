@@ -61,7 +61,8 @@ describe("button event handler", function () {
     buttonLogic(getClickEvent('='));
     expect(display.value).to.equal(3);
     expect(value1).to.equal(3);
-    expect(operator).to.be.null;
+    expect(operator).to.equal('+');
+    expect(value2).to.equal('2');
   });
   it("performs and displays result of calculation when operator clicked and value1 is set", function () {
     value1 = '1';
@@ -86,6 +87,23 @@ describe("button event handler", function () {
     expect(display.value).to.equal('1');
     expect(operator).to.equal('-');
     expect(lastButton).to.equal('-');
+  });
+  it("repeats calculation when equal pressed successively", function () {
+    value1 = '1';
+    value2 = '2';
+    operator = '+';
+    display.value = '2';
+    lastButton = '2';
+    buttonLogic(getClickEvent('='));
+    expect(display.value).to.equal(3);
+    expect(value1).to.equal(3);
+    expect(value2).to.equal('2');
+    expect(operator).to.equal('+');
+    buttonLogic(getClickEvent('='));
+    expect(display.value).to.equal(5);
+    expect(value1).to.equal(5);
+    expect(value2).to.equal('2');
+    expect(operator).to.equal('+');
   });
   it("clears state when the clear button is pressed", function () {
     value1 = "1";

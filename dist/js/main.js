@@ -87,6 +87,15 @@ function operatorOrEqualWasEntered(button) {
   if (isOperator(lastButton)) {
     operator = button;
     return;
+  } // if operator is pressed after an equal,
+  // all we need (?) to do is clear out value2
+  // and overwrite the saved operator with the new one
+
+
+  if (isEqual(lastButton) && isOperator(button)) {
+    operator = button;
+    value2 = null;
+    return;
   } // do we have enough saved information to make a calculation?
   // if we have value1 and operator
 
@@ -97,14 +106,14 @@ function operatorOrEqualWasEntered(button) {
     // from display.value
     // but it's the author's preference to
     // use all stored values in calculate() :-)
-    value2 = display.value;
+    if (value2 === null) {
+      value2 = display.value;
+    }
 
     if (button == '=') {
-      // TODO: is this really the correct behavior?
-      // Should value1 ever be set when operator is not?
+      // note: preserve operator and value2 to support
+      // repeating calculation on repeated = press
       display.value = value1 = calculate();
-      operator = null;
-      value2 = null;
     } else {
       display.value = value1 = calculate();
       operator = button;
