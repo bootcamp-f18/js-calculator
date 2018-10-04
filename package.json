@@ -6,9 +6,11 @@
     "scripts": {
         "sass": "sass --watch src/sass/main.scss dist/css/main.css",
         "browser-sync": "browser-sync start --server 'dist' --files 'dist'",
+        "browser-sync-test": "browser-sync start --server 'dist' --files 'dist' --index test.html",
         "babel": "babel src/js --out-dir dist/js --watch",
         "copy": "cpx \"src/**/*.html\" dist --watch",
-        "dev": "concurrently \"npm run browser-sync\" \"npm run sass\" \"npm run babel\" \"npm run copy\""
+        "dev": "concurrently \"npm run browser-sync\" \"npm run sass\" \"npm run babel\" \"npm run copy\"",
+        "test": "concurrently \"npm run browser-sync-test\" \"npm run sass\" \"npm run babel\" \"npm run copy\""
     },
     "devDependencies": {
         "@babel/cli": "^7.1.0",
