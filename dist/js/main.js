@@ -45,15 +45,23 @@ function buttonLogic(event) {
 }
 
 function numberWasEntered(button) {
+  // if we just pressed an operator before button,
+  // we're entering thse second operand instead of building on the first operand
   if (isOperator(lastButton)) {
     display.value = button;
-  } else {
-    if (display.value == '0') {
+  } // if we just pressed equal before button,
+  // we're starting a new calculation,
+  // so we should clear state
+  else if (isEqual(lastButton)) {
       display.value = button;
+      value1 = value2 = operator = null;
     } else {
-      display.value += button;
+      if (display.value == '0') {
+        display.value = button;
+      } else {
+        display.value += button;
+      }
     }
-  }
 }
 
 function decimalWasEntered(button) {
@@ -153,8 +161,12 @@ function isOperator(candidate) {
   return candidate == '+' || candidate == '-' || candidate == 'X' || candidate == '/';
 }
 
+function isEqual(candidate) {
+  return candidate == '=';
+}
+
 function isOperatorOrEqual(candidate) {
-  return isOperator(candidate) || candidate == '=';
+  return isOperator(candidate) || isEqual(candidate);
 }
 
 function isClear(candidate) {

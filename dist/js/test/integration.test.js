@@ -98,4 +98,15 @@ describe("button event handler", function () {
     expect(operator).to.be.null;
     expect(lastButton).to.equal('C');
   });
+  it("replaces display when digit button is clicked after equal", function () {
+    display.value = value1 = "3";
+    value2 = "2";
+    operator = "+";
+    lastButton = '=';
+    buttonLogic(getClickEvent('1'));
+    expect(display.value).to.equal('1');
+    expect(value1).to.be.null;
+    expect(value2).to.be.null;
+    expect(operator).to.be.null;
+  });
 });
