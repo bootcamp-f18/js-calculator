@@ -1,1 +1,57 @@
 // This is the Sass file we edit
+
+.calculator {
+  border: 2px solid black;
+  width: 233px;
+}
+
+.display {
+  font-size: 45px;
+  color: white;
+  background-color: darkgray;
+  width: inherit;
+  border: none;
+  margin: 0px;
+  text-align: right;
+  padding: 0px;
+}
+
+.keys {}
+
+.row {
+  padding: 1px;
+}
+
+/* Style for all keys */
+.key {
+  width: 57px;
+  height: 47px;
+  font-size: 25px;
+  border: none;
+  margin-right: -3px;
+}
+
+/* Numeric button color */
+.numeric {
+  background: lightgray;
+}
+
+/* Changes the numeric button color when selected */
+.numeric:active {
+  background-color: darkgray;
+}
+
+/* Function button color */
+.func {
+  background: orange;
+}
+
+/* Function button color */
+.func:active {
+  background: sienna;
+}
+
+/* Removes the blue border when selected */
+button:focus {
+  outline: 0;
+}

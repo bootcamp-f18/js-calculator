@@ -1,3 +1,3 @@
 # Instructions
 
-$ npm install
+Left as an exercise for the students. :-)
